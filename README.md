@@ -1,2 +1,2 @@
-# ALS-Translator-AIML
-Using OpenCV, Tensorflow &amp; LSTM, MediaPipe & Keras
+# ALS-Translator
+Using OpenCV, Tensorflow, LSTM & Mediapipe to translate the American Sign Language into English 
