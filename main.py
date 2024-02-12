@@ -20,10 +20,10 @@ def mediapipe_detection(image, model):
     return image, results
 
 def draw_landmarks (image, results):
-    mp_drawing.draw_landmarks(image, results.face_landmarks, mp.holistic.FACE_CONNECTIONS)       #Draw face connections
-    mp_drawing.draw_landmarks(image, results.pose_landmarks, mp.holistic.POSE_CONNECTIONS)       #Draw pose connections
-    mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp.holistic.HAND_CONNECTIONS)  #Draw hand connections
-    mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp.holistic.HAND_CONNECTIONS) #Draw hand connections
+    mp_drawing.draw_landmarks(image, results.face_landmarks, mp.solutions.holistic.FACEMESH_CONTOURS)       #Draw face connections
+    mp_drawing.draw_landmarks(image, results.pose_landmarks, mp.solutions.pose.POSE_CONNECTIONS)       #Draw pose connections
+    mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)  #Draw hand connections
+    mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS) #Draw hand connections
 
 
 
@@ -49,13 +49,14 @@ with mp_holistic.Holistic(min_detection_confidence= 0.5, min_tracking_confidence
         image, results = mediapipe_detection(frame, holistic)
         print(results)
 
-        cv2.imshow('Hey', frame)    #Display to screen
+        draw_landmarks(image, results)
+
+
+        cv2.imshow('Hey', image)    #Display to screen
         #Break
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
     cap.release()           #Release webcam
     cv2.destroyAllWindows() #Break window
 
-
-results.face_landmarks
 
