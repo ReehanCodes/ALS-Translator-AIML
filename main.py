@@ -45,14 +45,16 @@ with mp_holistic.Holistic(min_detection_confidence= 0.5, min_tracking_confidence
         #Make detections
         image, results = mediapipe_detection(frame, holistic)
 
-        pose = np.array([[res.x,res.y,res.z,res.visbility,] for res in results.pose_landmarks.landmark]).flatten()
+        pose = np.array([[res.x,res.y,res.z,res.visibility,] for res in results.pose_landmarks.landmark]).flatten() if results.pose_landmarks else np.zeros(132 * 4)
         print(len(pose))
-        face = np.array([[res.x,res.y,res.z] for res in results.pose_landmarks.landmark]).flatten()
+        face = np.array([[res.x,res.y,res.z] for res in results.face_landmarks.landmark]).flatten() if results.face_landmarks else np.zeros(21 * 3)
         print(len(face))
-        lh = np.array([[res.x,res.y,res.z] for res in results.pose_landmarks.landmark]).flatten()
+        
+        lh = np.array([[res.x,res.y,res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21 * 3)
         print(len(lh))
-        rh = np.array([[res.x,res.y,res.z,] for res in results.pose_landmarks.landmark]).flatten()
+        rh = np.array([[res.x,res.y,res.z,] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros (21 * 3)
         print(len(rh))
+        print(rh)
 
 
 
