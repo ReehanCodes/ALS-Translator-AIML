@@ -45,14 +45,7 @@ with mp_holistic.Holistic(min_detection_confidence= 0.5, min_tracking_confidence
         #Make detections
         image, results = mediapipe_detection(frame, holistic)
 
-
-        results.pose_landmarks.landmark[0].visibility
-        pose=[]
-
-        for res in results.pose_landmarks.landmark:
-            test = np.array([res.x,  res.y,  res.z,  res.visibility])
-            pose.append(test)
-            print(pose)
+        pose = np.array([[res.x,res.y,res.z,res.visbility,] for res in results.pose_landmarks.landmark])
 
 
 
