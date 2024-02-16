@@ -25,8 +25,12 @@ def draw_landmarks (image, results):
     mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)  #Draw hand connections
     mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS) #Draw hand connections
 
-
-
+def extracting_keypoints (results):
+    pose = np.array([[res.x,res.y,res.z,res.visibility,] for res in results.pose_landmarks.landmark]).flatten() if results.pose_landmarks else np.zeros(132 * 4)
+    face = np.array([[res.x,res.y,res.z] for res in results.face_landmarks.landmark]).flatten() if results.face_landmarks else np.zeros(468 * 3)
+    lh = np.array([[res.x,res.y,res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21 * 3)
+    rh = np.array([[res.x,res.y,res.z,] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros (21 * 3)
+    return np.concatenate([pose, face, lh, rh])
 
 
 
@@ -45,18 +49,7 @@ with mp_holistic.Holistic(min_detection_confidence= 0.5, min_tracking_confidence
         #Make detections
         image, results = mediapipe_detection(frame, holistic)
 
-        pose = np.array([[res.x,res.y,res.z,res.visibility,] for res in results.pose_landmarks.landmark]).flatten() if results.pose_landmarks else np.zeros(132 * 4)
-        print(len(pose))
-        face = np.array([[res.x,res.y,res.z] for res in results.face_landmarks.landmark]).flatten() if results.face_landmarks else np.zeros(21 * 3)
-        print(len(face))
-        
-        lh = np.array([[res.x,res.y,res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21 * 3)
-        print(len(lh))
-        rh = np.array([[res.x,res.y,res.z,] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros (21 * 3)
-        print(len(rh))
-        print(rh)
-
-
+        print(len(extracting_keypoints(results)))
 
 
 
